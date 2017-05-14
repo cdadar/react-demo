@@ -232,7 +232,7 @@ class IndexUser extends Component {
   render() {
     return (
       <div>
-        {users.map((user) => <User user={user} />)}
+        {users.map((user, i) => <User key={i} user={user} />)}
       </div>
     )
   }
