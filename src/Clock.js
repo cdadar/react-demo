@@ -8,15 +8,18 @@ class Clock extends Component {
         }
     }
 
+
+    // 开始加载
     componentWillMount() {
         this.timer = setInterval(() => {
             this.setState({
                 date: new Date()
-            },1000)
-        })
+            })
+        }, 1000)
     }
 
-    componentWillUnmount(){
+    //销毁
+    componentWillUnmount() {
         clearInterval(this.timer)
     }
 
@@ -31,3 +34,4 @@ class Clock extends Component {
         )
     }
 }
+export default Clock
