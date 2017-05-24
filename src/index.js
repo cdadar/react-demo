@@ -1,76 +1,51 @@
-import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
+import Header from './Header'
+import Content from './Content'
+import './index.css'
 
+function createStore(reducer) {
+    let state = null
+    const listeners = []
+    const subscribe = (listener) => listeners.push(listener)
+    const getState = () => state
+    const dispatch = (action) => {
+        state = reducer(state, action)
+        listeners.forEach((listener) => listener())
+    }
+    dispatch({}) // 初始化 state
+    return { getState, dispatch, subscribe }
+}
+
+
+const themeReducer = (state, action) => {
+    if (!state) return {
+        themeColor: 'red'
+    }
+    switch (action.type) {
+        case 'CHANGE_COLOR':
+            console.log(action.themeColor)
+            return { ...state, themeColor: action.themeColor }
+        default:
+            return state
+    }
+}
+
+const store = createStore(themeReducer)
 
 class Index extends Component {
     static childContextTypes = {
-        themeColor: PropTypes.string
+        store: PropTypes.object
     }
-
-    constructor() {
-        super()
-        this.state = { themeColor: 'red' }
-    }
-
-
-    
-    componentWillMount () {
-        this.setState({themeColor:'green'})
-    }
-    
 
     getChildContext() {
-        return { themeColor: this.state.themeColor }
+        return { store }
     }
     render() {
         return (
             <div>
                 <Header />
-                <Main />
-            </div>
-        )
-    }
-}
-
-class Header extends Component {
-    render() {
-        return (
-            <div>
-                <h2>This is header</h2>
-                <Title />
-            </div>
-        )
-    }
-}
-
-class Main extends Component {
-    render() {
-        return (
-            <div>
-                <h2>This is main</h2>
                 <Content />
-            </div>
-        )
-    }
-}
-
-class Title extends Component {
-    static contextTypes = {
-        themeColor: PropTypes.string
-    }
-    render() {
-        return (
-            <h1 style={{ color: this.context.themeColor }}>React.js 小书标题</h1>
-        )
-    }
-}
-
-class Content extends Component {
-    render() {
-        return (
-            <div>
-                <h2>React.js 小书内容</h2>
             </div>
         )
     }
