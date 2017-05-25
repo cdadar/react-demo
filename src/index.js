@@ -17,14 +17,12 @@ function createStore(reducer) {
     return { getState, dispatch, subscribe }
 }
 
-
 const themeReducer = (state, action) => {
     if (!state) return {
         themeColor: 'red'
     }
     switch (action.type) {
         case 'CHANGE_COLOR':
-            console.log(action.themeColor)
             return { ...state, themeColor: action.themeColor }
         default:
             return state
@@ -37,7 +35,6 @@ class Index extends Component {
     static childContextTypes = {
         store: PropTypes.object
     }
-
     getChildContext() {
         return { store }
     }

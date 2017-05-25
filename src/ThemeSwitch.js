@@ -5,25 +5,25 @@ class ThemeSwitch extends Component {
     store: PropTypes.object
   }
 
-  constructor () {
+  constructor() {
     super()
     this.state = { themeColor: '' }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     const { store } = this.context
     this._updateThemeColor()
     store.subscribe(() => this._updateThemeColor())
   }
 
-  _updateThemeColor () {
+  _updateThemeColor() {
     const { store } = this.context
     const state = store.getState()
     this.setState({ themeColor: state.themeColor })
   }
 
   // dispatch action 去改变颜色
-  handleSwitchColor (color) {
+  handleSwitchColor(color) {
     const { store } = this.context
     store.dispatch({
       type: 'CHANGE_COLOR',
@@ -31,7 +31,7 @@ class ThemeSwitch extends Component {
     })
   }
 
-  render () {
+  render() {
     return (
       <div>
         <button
